@@ -18,9 +18,6 @@ Basic HTTP transport implementation classes.
 
 """
 
-from suds.properties import Unskin
-from suds.transport import *
-
 import base64
 from cookielib import CookieJar
 import httplib
@@ -28,7 +25,12 @@ import socket
 import sys
 import urllib2
 
+from suds.properties import Unskin
+from suds.transport import *
+from https_connection import HTTPSHandler
+
 from logging import getLogger
+
 log = getLogger(__name__)
 
 
@@ -146,7 +148,9 @@ class HttpTransport(Transport):
         @rtype: [Handler,...]
 
         """
-        return [urllib2.ProxyHandler(self.proxy)]
+        handlers = [urllib2.ProxyHandler(self.proxy),
+                    HTTPSHandler()]
+        return handlers
 
     def u2ver(self):
         """
