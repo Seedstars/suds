@@ -26,6 +26,7 @@ prefix and the URI, e.g. I{('tns', 'http://myns')}.
 """
 
 import suds
+import suds.metrics as metrics
 from suds import *
 from suds.sax import *
 from suds.sax.attribute import Attribute
@@ -121,7 +122,7 @@ class Parser:
         """
         if file is None and string is None:
             return
-        timer = suds.metrics.Timer()
+        timer = metrics.Timer()
         timer.start()
         source = file
         if file is None:
@@ -131,7 +132,7 @@ class Parser:
         sax.parse(source)
         timer.stop()
         if file is None:
-            suds.metrics.log.debug("%s\nsax duration: %s", string, timer)
+            metrics.log.debug("%s\nsax duration: %s", string, timer)
         else:
-            suds.metrics.log.debug("sax (%s) duration: %s", file, timer)
+            metrics.log.debug("sax (%s) duration: %s", file, timer)
         return handler.nodes[0]
